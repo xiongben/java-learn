@@ -2,18 +2,12 @@
 public class Hello {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-         System.out.println("hello world!xxx");
+
+         Person p = new Person("xb",26);
+         String name = p.getName();
+		System.out.println(name);
 	}
 }
 
-class Person {
-	private String name;
-	private int age;
-	public Person(String name,int age) {
-		this.name = name;
-		this.age = age;
-	}
-	public Person() {
-		
-	}
-}
+
+

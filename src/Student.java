@@ -1,0 +1,13 @@
+public class Student extends Person {
+    protected int score;
+
+    public Student(String name, int age, int score){
+        super(name, age);
+        this.score = score;
+    }
+
+    @Override
+    public void run(){
+        System.out.println("student run");
+    }
+}
