@@ -4,7 +4,7 @@ import java.beans.*;
 public class Hello {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		 man = new Man();
+		   Man man = new Man();
 //         BeanInfo info = Introspector.getBeanInfo(Man.class);
 
 		System.out.println("Today is:" + Weekday.MON);
