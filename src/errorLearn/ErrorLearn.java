@@ -1,5 +1,9 @@
 package errorLearn;
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -8,8 +12,13 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.sun.istack.internal.Interned;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 public class ErrorLearn {
 //    public static void main(String[] args){
@@ -61,22 +70,29 @@ public class ErrorLearn {
 //            System.out.println(i);
 //        }
 
-         InvocationHandler handler = new InvocationHandler() {
-             @Override
-             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                 System.out.println(method);
-                 if(method.getName().equals("morning")) {
-                     System.out.println("Good morning, " + args[0]);
-                 }
-                 return null;
-             }
-         };
-         Hello hello = (Hello) Proxy.newProxyInstance(
-                 Hello.class.getClassLoader(),
-                 new Class[]{Hello.class},
-                 handler
-         );
-         hello.morning("Bob");
+//         InvocationHandler handler = new InvocationHandler() {
+//             @Override
+//             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+//                 System.out.println(method);
+//                 if(method.getName().equals("morning")) {
+//                     System.out.println("Good morning, " + args[0]);
+//                 }
+//                 return null;
+//             }
+//         };
+//         Hello hello = (Hello) Proxy.newProxyInstance(
+//                 Hello.class.getClassLoader(),
+//                 new Class[]{Hello.class},
+//                 handler
+//         );
+//         hello.morning("Bob");
+
+//           YoungMan youngman = new YoungMan();
+//           youngman.test();
+
+           Reports report1 = new Reports();
+           boolean aa = Reports.class.isAnnotationPresent(Report.class);
+           System.out.println(aa);
     }
 
     static  byte[] toGBK(String s){
@@ -116,6 +132,7 @@ public class ErrorLearn {
     }
 }
 
+
 class Man{
     private String name;
     public Man(){
@@ -125,15 +142,49 @@ class Man{
         this.name = name;
     }
 }
+
+
 class YoungMan extends Man{
+
     public int age;
+
     private  int num;
 
-    public YoungMan(){
-        super();
+    @Range(max=10)
+    public String city;
+
+    @PostConstruct
+    public void YoungMan(){
+        System.out.println("=======test youngman=====");
+    }
+
+
+    public void test(){
+        System.out.println("=======test=====");
     }
 }
 
 interface Hello {
     void morning(String name);
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@interface Report {
+    int type() default 0;
+    String level() default "info";
+    String value() default "";
+}
+
+@Report(type = 1)
+class Reports{
+
+}
+
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
+@interface Range {
+    int min() default 0;
+    int max() default 255;
 }

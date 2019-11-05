@@ -1,4 +1,4 @@
-public class Student extends Person {
+class Student extends Person {
     protected int score;
 
     public Student(String name, int age, int score){
