@@ -10,6 +10,7 @@ public class Generics {
         };
         Arrays.sort(ps);
         System.out.println(Arrays.toString(ps));
+        Pair<String, Integer> p = new Pair<>("test", 123);
     }
 }
 
@@ -37,3 +38,14 @@ class Person implements Comparable<Person>{
 //     */
 //    int compareTo(T o);
 //}
+
+class Pair<T, K> {
+    private T first;
+    private K last;
+    public Pair(T first, K last) {
+        this.first = first;
+        this.last = last;
+    }
+    public T getFirst() {return this.first;}
+    public K getLast() {return this.last; }
+}
