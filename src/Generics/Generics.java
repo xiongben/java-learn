@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Generics {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 //        Person[] ps = new Person[] {
 //                new Person("Bob", 61),
 //                new Person("Alice", 88),
@@ -115,7 +115,22 @@ public class Generics {
 //        System.out.println(q.poll()); // Alice/A2
 //        System.out.println(q.poll()); // null,因为队列为空
 
-          
+//          List<String> list4 = new ArrayList<>();
+//        list4.add("apple");
+//        list4.add("pear");
+//        list4.add("orange");
+//        List<String> immutable = Collections.unmodifiableList(list4);
+//        immutable.add("banner");
+//        System.out.println(list4);
+//        Collections.sort(list4);
+//        System.out.println(list4);
+
+          Thread t = new MyThread();
+          t.start();
+          Thread.sleep(1);
+          t.interrupt();
+          t.join();
+          System.out.println("end");
 
 }
 
@@ -132,6 +147,15 @@ public class Generics {
     }
 }
 
+class MyThread extends Thread {
+    public void run(){
+        int n = 0;
+        while (! isInterrupted()){
+            n++;
+            System.out.println(n + " hello!");
+        }
+    }
+}
 
 class Person implements Comparable<Person>{
     String name;
