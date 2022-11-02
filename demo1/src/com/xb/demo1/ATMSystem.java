@@ -1,6 +1,7 @@
 package com.xb.demo1;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ATMSystem {
@@ -60,6 +61,39 @@ public class ATMSystem {
         account.setQuotaMoney(moneyLimit);
 
         // create account number
-        
+        String cardId = getRandomCardId(accounts);
+        account.setCardId(cardId);
+
+        accounts.add(account);
+        System.out.println("create card success!" + userName + ",card number is :" + cardId);
     }
+
+    /**
+     * create account number
+     * @return
+     */
+    private static String getRandomCardId(ArrayList<Account> accounts) {
+        Random r = new Random();
+        while (true) {
+            String cardId = "";
+            for(int i = 0; i < 8; i++) {
+                cardId += r.nextInt(10);
+            }
+            Account acc = getAccountByCardId(cardId, accounts);
+            if(acc == null) {
+                return cardId;
+            }
+        }
+    }
+
+    public static Account getAccountByCardId(String cardId, ArrayList<Account> accounts) {
+        for (int i = 0; i < accounts.size(); i++) {
+            Account acc = accounts.get(i);
+            if(acc.getCardId().equals(cardId)){
+                return acc;
+            }
+        }
+        return null;
+    }
+
 }
