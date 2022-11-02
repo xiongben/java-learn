@@ -54,7 +54,7 @@ public class ATMSystem {
                     String pwd = sc.next();
                     if(acc.getPassWord().equals(pwd)) {
                         System.out.println("Success!" + acc.getUserName() + " enter the system!");
-                        showUserCommond(sc, acc);
+                        showUserCommond(sc, acc, accounts);
                         return;
                     } else {
                         System.out.println("Your password is error!");
@@ -66,7 +66,7 @@ public class ATMSystem {
         }
     }
 
-    private static void showUserCommond(Scanner sc, Account acc) {
+    private static void showUserCommond(Scanner sc, Account acc, ArrayList<Account> accounts) {
         while (true) {
             System.out.println("============ User Main Page ============");
             System.out.println("1,查询账户");
@@ -92,19 +92,98 @@ public class ATMSystem {
                     break;
                 case 4:
                     // 转账
+                    transfer(sc, acc, accounts);
                     break;
                 case 5:
                     // 修改密码
-                    break;
+                    updatePwd(acc, sc);
+                    return;
                 case 6:
                     System.out.println("logout!!!");
                     return;
                 case 7:
+                    // 销户
+                    accounts.remove(acc);
+                    System.out.println("你销户成功！");
                     break;
                 default:
                     System.out.println("Operation error!");
             }
         }
+    }
+
+    private static void updatePwd(Account acc, Scanner sc) {
+        System.out.println("========user password=========");
+        while (true) {
+            System.out.println("enter your password:");
+            String pwd = sc.next();
+            if(acc.getPassWord().equals(pwd)) {
+                while (true) {
+                    System.out.println("enter your new password:");
+                    String newPwd = sc.next();
+                    System.out.println("confirm your new password:");
+                    String confirmPwd = sc.next();
+
+                    if(newPwd.equals(confirmPwd)) {
+                        acc.setPassWord(newPwd);
+                        System.out.println("Update password success!");
+                        return;
+                    } else {
+                        System.out.println("your conform password is wrong!");
+                    }
+                }
+            } else {
+                System.out.println("your password is wrong!");
+            }
+        }
+    }
+
+    private static void transfer(Scanner sc, Account acc, ArrayList<Account> accounts) {
+        System.out.println("==========用户转账操作==============");
+        if(accounts.size() < 2) {
+            System.out.println("账号数目不足！无法进行转账");
+            return;
+        }
+        if(acc.getMoney() == 0) {
+            System.out.println("账户内没有资金！");
+            return;
+        }
+        while (true) {
+            System.out.println("请输入对方卡号：");
+            String cardId = sc.next();
+            Account account = getAccountByCardId(cardId, accounts);
+            if(cardId.equals(acc.getCardId())) {
+                System.out.println("你不能给自己转账！");
+                continue;
+            }
+            if(account == null){
+                System.out.println("你输入的账号不存在！");
+            } else {
+                String userName = account.getUserName();
+                String tip = "*" + userName.substring(1);
+                System.out.println("请你输入【" + tip + "】的姓氏");
+                String preName = sc.next();
+
+                if(userName.startsWith(preName)) {
+                    while (true) {
+                        // 开始转账
+                        System.out.println("输入转账的金额：");
+                        double money = sc.nextDouble();
+                        if(money > acc.getMoney()) {
+                            System.out.println("账户余额不足！");
+                        } else {
+                            acc.setMoney(acc.getMoney() - money);
+                            account.setMoney(account.getMoney() + money);
+                            System.out.println("转账成功，你的账号余额是：" + acc.getMoney());
+                            return;
+                        }
+                    }
+                } else {
+                    System.out.println("输入的信息有误");
+                }
+            }
+        }
+
     }
 
     private static void withDrawMoney(Account acc, Scanner sc) {
