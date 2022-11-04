@@ -1,0 +1,5 @@
+2022-11-04 23:21:32,742 DEBUG [main] Test1.class [Test1.java : 12] main function running,,,,,
+2022-11-04 23:21:32,743 INFO [main] Test1.class [Test1.java : 13] 我开始记录第二行日志
+2022-11-04 23:21:32,743 TRACE [main] Test1.class [Test1.java : 16] a=
+2022-11-04 23:21:32,744 TRACE [main] Test1.class [Test1.java : 17] b=
+2022-11-04 23:21:32,749 ERROR [main] Test1.class [Test1.java : 21] function error == : java.lang.ArithmeticException: / by zero

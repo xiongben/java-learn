@@ -1,0 +1,2 @@
+com/xb/day01_log/Test1.java
+ com.xb.day01_log.Test1
