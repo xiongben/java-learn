@@ -5,6 +5,8 @@ import com.xb.bean.Customer;
 import com.xb.bean.Movie;
 import com.xb.bean.User;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MovieSystem {
@@ -15,6 +17,7 @@ public class MovieSystem {
     public static User loginUser;
 
     public static final Scanner SYS_SC = new Scanner(System.in);
+    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     /**
      3、准备一些测试数据
@@ -167,10 +170,52 @@ public class MovieSystem {
     }
 
     private static void addMovie() {
+        System.out.println("================上架电影====================");
+        // 根据商家对象(就是登录的用户loginUser)，作为Map集合的键 提取对应的值就是其排片信息 ：Map<Business , List<Movie>> ALL_MOVIES
+        Business business = (Business) loginUser;
+        List<Movie> movies = ALL_MOVIES.get(business);
+
+        System.out.println("请您输入新片名：");
+        String name  = SYS_SC.nextLine();
+        System.out.println("请您输入主演：");
+        String actor  = SYS_SC.nextLine();
+        System.out.println("请您输入时长：");
+        String time  = SYS_SC.nextLine();
+        System.out.println("请您输入票价：");
+        String price  = SYS_SC.nextLine();
+        System.out.println("请您输入票数：");
+        String totalNumber  = SYS_SC.nextLine(); // 200\n
+        while (true) {
+            try {
+                System.out.println("请您输入影片放映时间：");
+                String stime  = SYS_SC.nextLine();
+                // public Movie(String name, String actor, double time, double price, int number, Date startTime)        // 封装成电影对象 ，加入集合movices中去
+                Movie movie = new Movie(name, actor ,Double.valueOf(time) , Double.valueOf(price)
+                        , Integer.valueOf(totalNumber) ,  sdf.parse(stime));
+                movies.add(movie);
+                System.out.println("您已经成功上架了：《" + movie.getName() + "》");
+                return; // 直接退出去
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private static void showBusinessInfos() {
+        Business business = (Business) loginUser;
+        System.out.println(business.getShopName() + "\t\t电话：" + business.getPhone() + "\t\t地址：" + business.getAddress());
+        List<Movie> movies = ALL_MOVIES.get(business);
+        if(movies.size() > 0) {
+            System.out.println("片名\t\t\t主演\t\t时长\t\t评分\t\t票价\t\t余票数量\t\t放映时间");
+            for (Movie movie : movies) {
 
+                System.out.println(movie.getName()+"\t\t\t" + movie.getActor()+ "\t\t" + movie.getTime()
+                        + "\t\t" + movie.getScore() + "\t\t" + movie.getPrice() + "\t\t" + movie.getNumber() + "\t\t"
+                        +   sdf.format(movie.getStartTime()));
+            }
+        }else {
+            System.out.println("您的店铺当前无片在放映~~~~");
+        }
     }
 
     private static void showCustomerMain() {
@@ -186,29 +231,38 @@ public class MovieSystem {
             System.out.println("5、退出系统:");
             System.out.println("请输入您要操作的命令：");
             String command = SYS_SC.nextLine();
-//            switch (command){
-//                case "1":
-//                    // 展示全部排片信息
-//                    showAllMovies();
-//                    break;
-//                case "2":
-//                    break;
-//                case "3":
-//                    // 评分功能
-//                    scoreMovie();
-//                    showAllMovies();
-//                    break;
-//                case "4":
-//                    // 购票功能
-//                    buyMovie();
-//                    break;
-//                case "5":
-//                    return; // 干掉方法
-//                default:
-//                    System.out.println("不存在该命令！！");
-//                    break;
-//            }
+            switch (command){
+                case "1":
+                    // 展示全部排片信息
+                    showAllMovies();
+                    break;
+                case "2":
+                    break;
+                case "3":
+                    // 评分功能
+                    scoreMovie();
+                    showAllMovies();
+                    break;
+                case "4":
+                    // 购票功能
+                    buyMovie();
+                    break;
+                case "5":
+                    return; // 干掉方法
+                default:
+                    System.out.println("不存在该命令！！");
+                    break;
+            }
         }
+    }
+
+    private static void buyMovie() {
+    }
+
+    private static void scoreMovie() {
+    }
+
+    private static void showAllMovies() {
     }
 
     public static User getUserByLoginName(String loginName) {
