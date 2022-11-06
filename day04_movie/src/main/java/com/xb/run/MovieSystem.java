@@ -164,9 +164,102 @@ public class MovieSystem {
     }
 
     private static void updateMovie() {
+        Business business = (Business) loginUser;
+        List<Movie> movies = ALL_MOVIES.get(business);
+        if(movies.size() == 0) {
+            System.out.println("当前无片可以下架！");
+            return;
+        }
+        while (true) {
+            System.out.println("请你输入需要修改的电影名称：");
+            String movieName = SYS_SC.nextLine();
+
+            Movie movie = getMovieByName(movieName);
+            if(movie != null) {
+                System.out.println("请您输入修改后的片名：");
+                String name  = SYS_SC.nextLine();
+                System.out.println("请您输入修改后的主演：");
+                String actor  = SYS_SC.nextLine();
+                System.out.println("请您输入修改后的时长：");
+                String time  = SYS_SC.nextLine();
+                System.out.println("请您输入修改后的票价：");
+                String price  = SYS_SC.nextLine();
+                System.out.println("请您输入修改后的票数：");
+                String totalNumber  = SYS_SC.nextLine(); // 200\n
+                while (true) {
+                    try {
+                        System.out.println("请您输入修改后的影片放映时间：");
+                        String stime  = SYS_SC.nextLine();
+                        // public Movie(String name, String actor, double time, double price, int number, Date startTime)        // 封装成电影对象 ，加入集合movices中去
+                        movie.setName(name);
+                        movie.setActor(actor);
+                        movie.setPrice(Double.valueOf(price));
+                        movie.setTime(Double.valueOf(time));
+                        movie.setNumber(Integer.valueOf(totalNumber));
+                        movie.setStartTime(sdf.parse(stime));
+                        System.out.println("已成功修改电影:" + movie.getName());
+                        showBusinessInfos();
+                        return; // 直接退出去
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                System.out.println("你的店铺没有上架该电影！");
+                System.out.println("请问继续修改吗？y/n");
+                String commond = SYS_SC.nextLine();
+                switch (commond) {
+                    case "y":
+                        break;
+                    default:
+                        System.out.println("好的！");
+                        return;
+                }
+            }
+        }
     }
 
     private static void deleteMovie() {
+        Business business = (Business) loginUser;
+        List<Movie> movies = ALL_MOVIES.get(business);
+        if(movies.size() == 0) {
+            System.out.println("当前无片可以下架！");
+            return;
+        }
+        while (true) {
+            System.out.println("请你输入需要下架的电影名称：");
+            String movieName = SYS_SC.nextLine();
+
+            Movie movie = getMovieByName(movieName);
+            if(movie != null) {
+                movies.remove(movie);
+                System.out.println("已成功下架电影:" + movie.getName());
+                showBusinessInfos();
+                return;
+            } else {
+                System.out.println("你的店铺没有上架该电影！");
+                System.out.println("请问继续下架吗？y/n");
+                String commond = SYS_SC.nextLine();
+                switch (commond) {
+                    case "y":
+                        break;
+                    default:
+                        System.out.println("好的！");
+                        return;
+                }
+            }
+        }
+    }
+
+    public static Movie getMovieByName(String movieName) {
+        Business business = (Business) loginUser;
+        List<Movie> movies = ALL_MOVIES.get(business);
+        for(Movie movie : movies) {
+            if(movie.getName().contains(movieName)) {
+                return movie;
+            }
+        }
+        return null;
     }
 
     private static void addMovie() {
