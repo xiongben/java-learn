@@ -1,0 +1,10 @@
+com/xb/bean/Customer.java
+ com.xb.bean.Customer
+com/xb/bean/Business.java
+ com.xb.bean.Business
+com/xb/bean/Movie.java
+ com.xb.bean.Movie
+com/xb/bean/User.java
+ com.xb.bean.User
+com/xb/run/MovieSystem.java
+ com.xb.run.MovieSystem

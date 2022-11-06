@@ -5,6 +5,7 @@ import com.xb.bean.Customer;
 import com.xb.bean.Movie;
 import com.xb.bean.User;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -350,12 +351,110 @@ public class MovieSystem {
     }
 
     private static void buyMovie() {
+        showAllMovies();
+        System.out.println("============用户购票功能============");
+        while (true) {
+            System.out.println("请输入需要买票的门店：");
+            String shopName = SYS_SC.nextLine();
+            Business business = getUserByShopName(shopName);
+            if(business == null) {
+                System.out.println("对不起，没有该店铺！");
+            } else {
+                List<Movie> movies = ALL_MOVIES.get(business);
+                if (movies.size() > 0) {
+                    while (true) {
+                        System.out.println("请输入需要购买的电影名称：");
+                        String movieName = SYS_SC.nextLine();
+                        Movie movie = getMovieByShopAndName(business, movieName);
+                        if(movie != null) {
+                            System.out.println("请输入需要购买的电影票数：");
+                            String number = SYS_SC.nextLine();
+                            int buyNumber = Integer.valueOf(number);
+                            if(movie.getNumber() >= buyNumber) {
+                                double money = BigDecimal.valueOf(movie.getPrice()).multiply(BigDecimal.valueOf(buyNumber)).doubleValue();
+                                if(loginUser.getMoney() >= money) {
+                                    System.out.println("购买成功！");
+                                    loginUser.setMoney(loginUser.getMoney() - money);
+                                    business.setMoney(business.getMoney() + money);
+                                    movie.setNumber(movie.getNumber() - buyNumber);
+                                    return;
+                                } else {
+                                    System.out.println("钱不够!");
+                                    System.out.println("是否继续买票？y/n");
+                                    String commond = SYS_SC.nextLine();
+                                    switch (commond) {
+                                        case "y":
+                                            break;
+                                        default:
+                                            System.out.println("好的！");
+                                            return;
+                                    }
+                                }
+                            } else {
+                                System.out.println("你当前最多购买：" + movie.getNumber());
+                                System.out.println("是否继续买票？y/n");
+                                String commond = SYS_SC.nextLine();
+                                switch (commond) {
+                                    case "y":
+                                        break;
+                                    default:
+                                        System.out.println("好的！");
+                                        return;
+                                }
+                            }
+                        } else {
+                            System.out.println("电影名称有问题！");
+                        }
+                    }
+                } else {
+                    System.out.println("该电影院关门了！");
+                    System.out.println("是否继续买票？y/n");
+                    String commond = SYS_SC.nextLine();
+                    switch (commond) {
+                        case "y":
+                            break;
+                        default:
+                            System.out.println("好的！");
+                            return;
+                    }
+                }
+            }
+        }
+    }
+
+    public static Movie getMovieByShopAndName(Business business, String name) {
+        List<Movie> movies = ALL_MOVIES.get(business);
+        for(Movie movie : movies) {
+            if(movie.getName().contains(name)) {
+                return movie;
+            }
+        }
+        return null;
+    }
+
+    public static Business getUserByShopName(String shopName) {
+        Set<Business> businesses = ALL_MOVIES.keySet();
+        for(Business business : businesses) {
+            if(business.getShopName().equals(shopName)){
+                return business;
+            }
+        }
+        return null;
     }
 
     private static void scoreMovie() {
     }
 
     private static void showAllMovies() {
+        System.out.println("=========展示全部商家排片信息==========");
+        ALL_MOVIES.forEach(((business, movies) -> {
+            System.out.println(business.getShopName() + "\t\t电话：" + business.getPhone() + "\t\t地址：" + business.getAddress());
+            for (Movie movie : movies) {
+                System.out.println(movie.getName()+"\t\t\t" + movie.getActor()+ "\t\t" + movie.getTime()
+                        + "\t\t" + movie.getScore() + "\t\t" + movie.getPrice() + "\t\t" + movie.getNumber() + "\t\t"
+                        +   sdf.format(movie.getStartTime()));
+            }
+        }));
     }
 
     public static User getUserByLoginName(String loginName) {
