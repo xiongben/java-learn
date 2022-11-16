@@ -10,3 +10,10 @@ com/xb/PropertyDemo2.java
  com.xb.PropertyDemo2
 com/xb/CommonsIoDemo.java
  com.xb.CommonsIoDemo
+com/xb/ThreadDemo2.java
+ com.xb.MyCallable
+ com.xb.ThreadDemo2
+com/xb/ThreadDemo.java
+ com.xb.MyRunnable
+ com.xb.MyThread
+ com.xb.ThreadDemo
