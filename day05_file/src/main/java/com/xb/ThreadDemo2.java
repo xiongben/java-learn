@@ -43,6 +43,7 @@ class MyCallable implements Callable<String>{
 
     @Override
     public String call() throws Exception {
+        System.out.println("正在执行的线程：" + Thread.currentThread().getName());
         int sum = 0;
         for(int i = 0; i <= n; i++) {
             sum += i;

@@ -17,3 +17,7 @@ com/xb/ThreadDemo.java
  com.xb.MyRunnable
  com.xb.MyThread
  com.xb.ThreadDemo
+com/xb/ThreadDemo3.java
+ com.xb.ThreadDemo3
+com/xb/PoolDemo.java
+ com.xb.PoolDemo
