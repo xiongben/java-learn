@@ -2,6 +2,7 @@ package com.xb.demo1;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class Test {
     public static void main(String[] args) throws Exception {
@@ -32,6 +33,15 @@ public class Test {
         Method m1 = c.getMethod("getAge");
 //        m1.setAccessible(true);
         m1.invoke(s);
+
+        ArrayList<Integer> list3 = new ArrayList<>();
+        list3.add(1);
+        list3.add(2);
+        Class c3 = list3.getClass();
+        Method add = c3.getDeclaredMethod("add", Object.class);
+        boolean rs = (boolean) add.invoke(list3, "坦克世界");
+        System.out.println(rs);
+        System.out.println(list3);
 
     }
 }
