@@ -4,3 +4,12 @@ com/xb/demo1/Test.java
  com.xb.demo1.Test
 com/xb/demo1/Test2.java
  com.xb.demo1.Test2
+com/xb/demo1/ReflectDemo.java
+ com.xb.demo1.ReflectDemo
+com/xb/demo1/MybatisUtil.java
+ com.xb.demo1.MybatisUtil
+com/xb/demo2/MyBook.java
+ com.xb.demo2.MyBook
+com/xb/demo2/AnnotationDemo.java
+ com.xb.demo2.AnnotationDemo
+ com.xb.demo2.BookStore
