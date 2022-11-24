@@ -13,3 +13,12 @@ com/xb/demo2/MyBook.java
 com/xb/demo2/AnnotationDemo.java
  com.xb.demo2.AnnotationDemo
  com.xb.demo2.BookStore
+com/xb/demo3/StarAgentProxy.java
+ com.xb.demo3.StarAgentProxy
+ com.xb.demo3.StarAgentProxy$1
+com/xb/demo3/Skill.java
+ com.xb.demo3.Skill
+com/xb/demo3/Test.java
+ com.xb.demo3.Test
+com/xb/demo3/Star.java
+ com.xb.demo3.Star
