@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<student>
+    <name>刘德华</name>
+    <age>26</age>
+    <info>
+        <like>唱歌</like>
+        <sql><![CDATA[
+          <<<>>>>
+        ]]></sql>
+    </info>
+</student>
